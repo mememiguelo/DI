@@ -27,6 +27,9 @@ class MainWin:
 		self.widgets  = gtk.glade.XML("Entrega_2.glade")
 
 		window1 = self.widgets.get_widget("window1")
+		self.window2 = self.widgets.get_widget("dialog1")
+
+		self.vista = self.widgets.get_widget("vista")
 
 		#Color de fondo
 		window1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#F8E0F7'))
@@ -100,21 +103,42 @@ class MainWin:
 	def onClickListar(self,widget):
 		#print("Listar datos")
 
-		ventana = gtk.Dialog()
-		ok_button = ventana.add_button(gtk.STOCK_OK, gtk.RESPONSE_OK)
-		cancelar_button = ventana.add_button(gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL)
-		ok_button.grab_default()
-		ventana.set_title("Lista")
+		#self.widgets  = gtk.glade.XML("Entrega_2.glade")
 
+		#self.window2.clear()
+
+		self.lista=gtk.ListStore(str,str,str,str,str,str,)
+
+		self.lista.clear()
 		c.execute('SELECT * FROM tusuario;')
 
 		for x in c.fetchall():
-			usuario = gtk.Label("Usuario: "+x[0])
-			ventana.vbox.pack_start(usuario, True, True, 0)
+			self.lista.append([x[0],x[1],x[2],x[3],x[4],x[5]])
+		
+		
+		render=gtk.CellRendererText()
+		columna1=gtk.TreeViewColumn("Usuario",render,text=0)
+		columna2=gtk.TreeViewColumn("Contraseña",render,text=1)
+		columna3=gtk.TreeViewColumn("Email",render,text=2)
+		columna4=gtk.TreeViewColumn("Nombre",render,text=3)
+		columna5=gtk.TreeViewColumn("Apellidos",render,text=4)
+		columna6=gtk.TreeViewColumn("Direccion",render,text=5)
 
-		ventana.show_all()
-		ventana.run()
-		ventana.destroy()
+
+
+		self.vista.set_model(self.lista)
+		self.vista.append_column(columna1)
+		self.vista.append_column(columna2)
+		self.vista.append_column(columna3)
+		self.vista.append_column(columna4)
+		self.vista.append_column(columna5)
+		self.vista.append_column(columna6)
+		self.vista.show()
+
+		self.window2.show_all()
+		self.window2.run()
+		self.window2.hide();
+
 		
 
 # Para terminar iniciamos el programa
