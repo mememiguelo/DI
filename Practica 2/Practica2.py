@@ -31,6 +31,22 @@ class MainWin:
 
 		self.vista = self.widgets.get_widget("vista")
 
+		self.lista=gtk.ListStore(str,str,str,str,str,str)
+		self.vista.set_model(self.lista)
+		render=gtk.CellRendererText()
+		columna1=gtk.TreeViewColumn("Usuario",render,text=0)
+		columna2=gtk.TreeViewColumn("Contraseña",render,text=1)
+		columna3=gtk.TreeViewColumn("Email",render,text=2)
+		columna4=gtk.TreeViewColumn("Nombre",render,text=3)
+		columna5=gtk.TreeViewColumn("Apellidos",render,text=4)
+		columna6=gtk.TreeViewColumn("Direccion",render,text=5)
+		self.vista.append_column(columna1)
+		self.vista.append_column(columna2)
+		self.vista.append_column(columna3)
+		self.vista.append_column(columna4)
+		self.vista.append_column(columna5)
+		self.vista.append_column(columna6)
+
 		#Color de fondo
 		window1.modify_bg(gtk.STATE_NORMAL, gtk.gdk.Color('#F8E0F7'))
 
@@ -107,7 +123,7 @@ class MainWin:
 
 		#self.window2.clear()
 
-		self.lista=gtk.ListStore(str,str,str,str,str,str,)
+		
 
 		self.lista.clear()
 		c.execute('SELECT * FROM tusuario;')
@@ -115,24 +131,7 @@ class MainWin:
 		for x in c.fetchall():
 			self.lista.append([x[0],x[1],x[2],x[3],x[4],x[5]])
 		
-		
-		render=gtk.CellRendererText()
-		columna1=gtk.TreeViewColumn("Usuario",render,text=0)
-		columna2=gtk.TreeViewColumn("Contraseña",render,text=1)
-		columna3=gtk.TreeViewColumn("Email",render,text=2)
-		columna4=gtk.TreeViewColumn("Nombre",render,text=3)
-		columna5=gtk.TreeViewColumn("Apellidos",render,text=4)
-		columna6=gtk.TreeViewColumn("Direccion",render,text=5)
 
-
-
-		self.vista.set_model(self.lista)
-		self.vista.append_column(columna1)
-		self.vista.append_column(columna2)
-		self.vista.append_column(columna3)
-		self.vista.append_column(columna4)
-		self.vista.append_column(columna5)
-		self.vista.append_column(columna6)
 		self.vista.show()
 
 		self.window2.show_all()
